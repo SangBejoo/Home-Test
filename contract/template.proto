@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+option go_package = "github.com/SangBejoo/Template/gen/proto/base";
+package base;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+
+service Base {
+    rpc HealthCheck(google.protobuf.Empty) returns (MessageStatusResponse){};
+}
+
+service Booking {
+    rpc GetSummary(GetSummaryRequest) returns (BookingSummaryResponse){};
+}
+
+message MessageStatusResponse{
+    string message = 1;
+    string status = 2;
+}
+
+message BookingSummaryResponse {
+    int32 total_bookings = 1;
+    int32 total_participants = 2;
+    repeated OfficeSummary offices = 3;
+    string start_date = 4;
+    string end_date = 5;
+}
+
+message GetSummaryRequest {
+    string start_date = 1;
+    string end_date = 2;
+}
+
+message OfficeSummary {
+    string office_name = 1;
+    repeated RoomSummary rooms = 2;
+}
+
+message RoomSummary {
+    string room_name = 1;
+    int32 booking_count = 2;
+    int32 total_participants = 3;
+    repeated ConsumptionSummary consumptions = 4;
+    string booking_start_date = 5;
+    string booking_end_date = 6;
+    string start_time = 7;
+    string end_time = 8;
+}
+
+message ConsumptionSummary {
+    string consumption_name = 1;
+    int32 count = 2;
+    int32 total_cost = 3;
+}

@@ -1,0 +1,11 @@
+type: google.api.Service
+config_version: 3
+
+http:
+  rules:
+    # Existing base endpoints
+    - selector: base.Base.HealthCheck
+      get: /v1/health
+    - selector: base.Booking.GetSummary
+      get: /v1/booking/summary
+

@@ -1,0 +1,214 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "template.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Base"
+    },
+    {
+      "name": "Booking"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/booking/summary": {
+      "get": {
+        "operationId": "Booking_GetSummary",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/baseBookingSummaryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Booking"
+        ]
+      }
+    },
+    "/v1/health": {
+      "get": {
+        "operationId": "Base_HealthCheck",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/baseMessageStatusResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "Base"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "baseBookingSummaryResponse": {
+      "type": "object",
+      "properties": {
+        "totalBookings": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalParticipants": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "offices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/baseOfficeSummary"
+          }
+        },
+        "startDate": {
+          "type": "string"
+        },
+        "endDate": {
+          "type": "string"
+        }
+      }
+    },
+    "baseConsumptionSummary": {
+      "type": "object",
+      "properties": {
+        "consumptionName": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalCost": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "baseMessageStatusResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "baseOfficeSummary": {
+      "type": "object",
+      "properties": {
+        "officeName": {
+          "type": "string"
+        },
+        "rooms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/baseRoomSummary"
+          }
+        }
+      }
+    },
+    "baseRoomSummary": {
+      "type": "object",
+      "properties": {
+        "roomName": {
+          "type": "string"
+        },
+        "bookingCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalParticipants": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "consumptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/baseConsumptionSummary"
+          }
+        },
+        "bookingStartDate": {
+          "type": "string"
+        },
+        "bookingEndDate": {
+          "type": "string"
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
