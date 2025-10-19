@@ -9,7 +9,6 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/open-feature/go-sdk v1.15.1
 	github.com/open-feature/go-sdk-contrib/providers/flipt v0.1.4
-	github.com/redis/go-redis/v9 v9.11.0
 	go.elastic.co/apm/module/apmgrpc/v2 v2.7.1
 	go.elastic.co/apm/v2 v2.7.1
 	google.golang.org/grpc v1.74.2
@@ -19,9 +18,7 @@ require (
 
 require (
 	github.com/armon/go-radix v1.0.0 // indirect
-	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
-	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/elastic/go-sysinfo v1.7.1 // indirect
 	github.com/elastic/go-windows v1.0.0 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
