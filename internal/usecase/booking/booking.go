@@ -111,14 +111,17 @@ func (u *bookingUseCase) GetSummary(ctx context.Context, req *base.GetSummaryReq
 		}
 		for _, c := range b.ListConsumption {
 			if consMap[c.Name] == nil {
-				newCons := &ConsumptionSummary{ConsumptionName: c.Name}
+				maxPrice := priceMap[c.Name]
+				newCons := &ConsumptionSummary{
+					ConsumptionName: c.Name,
+					PricePerPortion: maxPrice,
+				}
 				consMap[c.Name] = newCons
 				room.summary.Consumptions = append(room.summary.Consumptions, newCons)
 			}
-			consMap[c.Name].Count++
-			if maxPrice, exists := priceMap[c.Name]; exists {
-				consMap[c.Name].TotalCost += maxPrice * b.Participants
-			}
+			consMap[c.Name].OrderCount++
+			consMap[c.Name].TotalPortions += b.Participants
+			consMap[c.Name].TotalCost += consMap[c.Name].PricePerPortion * b.Participants
 		}
 		// Update the room in map
 		officeMap[b.OfficeName][b.RoomName] = room
@@ -128,9 +131,9 @@ func (u *bookingUseCase) GetSummary(ctx context.Context, req *base.GetSummaryReq
 	for officeName, roomMap := range officeMap {
 		var rooms []RoomSummary
 		for _, room := range roomMap {
-			// Sort consumptions by count descending
+			// Sort consumptions by orderCount descending
 			sort.Slice(room.summary.Consumptions, func(i, j int) bool {
-				return room.summary.Consumptions[i].Count > room.summary.Consumptions[j].Count
+				return room.summary.Consumptions[i].OrderCount > room.summary.Consumptions[j].OrderCount
 			})
 			// Set date strings
 			room.summary.BookingStartDate = room.minBookingDate.Format("2006-01-02")

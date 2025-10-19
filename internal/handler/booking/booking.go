@@ -31,7 +31,9 @@ func (h *bookingGRPCHandler) GetSummary(ctx context.Context, req *base.GetSummar
 			for _, c := range r.Consumptions {
 				consumptions = append(consumptions, &base.ConsumptionSummary{
 					ConsumptionName: c.ConsumptionName,
-					Count:           int32(c.Count),
+					OrderCount:      int32(c.OrderCount),
+					TotalPortions:   int32(c.TotalPortions),
+					PricePerPortion: int32(c.PricePerPortion),
 					TotalCost:       int32(c.TotalCost),
 				})
 			}

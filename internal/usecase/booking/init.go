@@ -36,6 +36,8 @@ type RoomSummary struct {
 
 type ConsumptionSummary struct {
 	ConsumptionName string
-	Count           int
+	OrderCount      int
+	TotalPortions   int
+	PricePerPortion int
 	TotalCost       int
 }

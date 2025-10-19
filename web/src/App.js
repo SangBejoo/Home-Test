@@ -66,12 +66,28 @@ export default function BookingDashboard() {
       let url = API_BASE_URL;
       const params = new URLSearchParams();
 
-      if (year && month) {
-        const mon = month.padStart(2, '0');
-        const selectedMonth = `${year}-${mon}`;
-        const [y, m] = selectedMonth.split('-').map(Number);
-        const startDate = `${selectedMonth}-01`;
-        const endDate = `${selectedMonth}-${getLastDayOfMonth(y, m)}`;
+      if (year || month) {
+        let startDate, endDate;
+        if (year && month) {
+          // Filter by specific month
+          const mon = month.padStart(2, '0');
+          const selectedMonth = `${year}-${mon}`;
+          const [y, m] = selectedMonth.split('-').map(Number);
+          startDate = `${selectedMonth}-01`;
+          endDate = `${selectedMonth}-${getLastDayOfMonth(y, m)}`;
+        } else if (year) {
+          // Filter by whole year
+          startDate = `${year}-01-01`;
+          endDate = `${year}-12-31`;
+        } else if (month) {
+          // Filter by month of current year
+          const currentYear = new Date().getFullYear();
+          const mon = month.padStart(2, '0');
+          const selectedMonth = `${currentYear}-${mon}`;
+          const [y, m] = selectedMonth.split('-').map(Number);
+          startDate = `${selectedMonth}-01`;
+          endDate = `${selectedMonth}-${getLastDayOfMonth(y, m)}`;
+        }
         params.append('start_date', startDate);
         params.append('end_date', endDate);
       }
@@ -217,7 +233,7 @@ export default function BookingDashboard() {
               <Card>
                 <CardBody>
                   <Stat>
-                    <StatLabel fontSize="sm" color="gray.600">Total Peserta</StatLabel>
+                    <StatLabel fontSize="sm" color="gray.600">Keseluruhan Peserta</StatLabel>
                     <StatNumber fontSize="3xl" color="green.600">{summary.totalParticipants}</StatNumber>
                     <StatHelpText>
                       👥 Peserta
@@ -260,11 +276,11 @@ export default function BookingDashboard() {
                           {/* Quick Stats */}
                           <Grid templateColumns="repeat(3, 1fr)" gap={2} mb={3}>
                             <Box bg="blue.50" p={2} borderRadius="md">
-                              <Text fontSize="xs" color="gray.600">Pemesanan</Text>
+                              <Text fontSize="xs" color="gray.600">Jumlah Pemesanan</Text>
                               <Text fontSize="sm" fontWeight="bold" color="blue.600">{room.bookingCount}</Text>
                             </Box>
                             <Box bg="green.50" p={2} borderRadius="md">
-                              <Text fontSize="xs" color="gray.600">Peserta</Text>
+                              <Text fontSize="xs" color="gray.600">Total Peserta</Text>
                               <Text fontSize="sm" fontWeight="bold" color="green.600">{room.totalParticipants}</Text>
                             </Box>
                             <Box bg="orange.50" p={2} borderRadius="md">
@@ -283,15 +299,19 @@ export default function BookingDashboard() {
                                 <Thead>
                                   <Tr bg="gray.50">
                                     <Th fontSize="xs" p={1}>Barang</Th>
-                                    <Th isNumeric fontSize="xs" p={1}>Jml</Th>
-                                    <Th isNumeric fontSize="xs" p={1}>Biaya</Th>
+                                    <Th isNumeric fontSize="xs" p={1}>Order</Th>
+                                    <Th isNumeric fontSize="xs" p={1}>Portions</Th>
+                                    <Th isNumeric fontSize="xs" p={1}>Price/Port</Th>
+                                    <Th isNumeric fontSize="xs" p={1}>Total</Th>
                                   </Tr>
                                 </Thead>
                                 <Tbody>
                                   {room.consumptions.map((cons, consIndex) => (
                                     <Tr key={consIndex}>
                                       <Td fontSize="xs" p={1}>{cons.consumptionName}</Td>
-                                      <Td isNumeric fontSize="xs" p={1}>{cons.count}</Td>
+                                      <Td isNumeric fontSize="xs" p={1}>{cons.orderCount}</Td>
+                                      <Td isNumeric fontSize="xs" p={1}>{cons.totalPortions}</Td>
+                                      <Td isNumeric fontSize="xs" p={1}>Rp {cons.pricePerPortion.toLocaleString('id-ID')}</Td>
                                       <Td isNumeric fontSize="xs" p={1}>Rp {cons.totalCost.toLocaleString('id-ID')}</Td>
                                     </Tr>
                                   ))}

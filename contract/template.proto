@@ -51,6 +51,8 @@ message RoomSummary {
 
 message ConsumptionSummary {
     string consumption_name = 1;
-    int32 count = 2;
-    int32 total_cost = 3;
+    int32 order_count = 2;
+    int32 total_portions = 3;
+    int32 price_per_portion = 4;
+    int32 total_cost = 5;
 }

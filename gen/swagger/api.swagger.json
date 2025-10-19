@@ -111,7 +111,15 @@
         "consumptionName": {
           "type": "string"
         },
-        "count": {
+        "orderCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPortions": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pricePerPortion": {
           "type": "integer",
           "format": "int32"
         },
