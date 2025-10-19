@@ -3,7 +3,6 @@ package booking
 import (
 	"context"
 	"sort"
-	"strings"
 	"time"
 
 	base "github.com/SangBejoo/Template/gen/proto"
@@ -72,15 +71,6 @@ func (u *bookingUseCase) GetSummary(ctx context.Context, req *base.GetSummaryReq
 
 	for _, b := range filteredBookings {
 		totalParticipants += b.Participants
-
-		// Filter out generic office names
-		if strings.HasPrefix(b.OfficeName, "officeName ") {
-			continue
-		}
-		// Filter out generic room names
-		if strings.HasPrefix(b.RoomName, "roomName ") {
-			continue
-		}
 
 		if officeMap[b.OfficeName] == nil {
 			officeMap[b.OfficeName] = make(map[string]*roomData)
